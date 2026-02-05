@@ -1,21 +1,19 @@
 import { useState, useRef } from 'react';
 import './EnvelopeScreen.css';
 
-const EnvelopeScreen = ({ onOpenComplete }) => {
+const EnvelopeScreen = ({ onOpenComplete, onStartMusic }) => {
     const [isOpening, setIsOpening] = useState(false);
     const [isLetterVisible, setIsLetterVisible] = useState(false);
     const [showEnterButton, setShowEnterButton] = useState(false);
-    const audioRef = useRef(null);
 
     const handleEnvelopeClick = () => {
         if (isOpening) return;
 
         setIsOpening(true);
 
-        // Start playing music
-        if (audioRef.current) {
-            audioRef.current.volume = 0.3;
-            audioRef.current.play().catch(console.log);
+        // Start playing music (handled by parent App.jsx)
+        if (onStartMusic) {
+            onStartMusic();
         }
 
         // Reveal letter after envelope opens
@@ -30,14 +28,15 @@ const EnvelopeScreen = ({ onOpenComplete }) => {
     };
 
     const handleEnterExperience = () => {
-        onOpenComplete(audioRef.current);
+        // Music keeps playing - just transition to main
+        onOpenComplete();
     };
 
     return (
         <div className="envelope-screen">
             {/* Background Particles */}
             <div className="envelope-particles">
-                {[...Array(25)].map((_, i) => (
+                {[...Array(20)].map((_, i) => (
                     <div
                         key={i}
                         className="envelope-particle"
@@ -50,11 +49,6 @@ const EnvelopeScreen = ({ onOpenComplete }) => {
                     />
                 ))}
             </div>
-
-            {/* Audio */}
-            <audio ref={audioRef} loop>
-                <source src="https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3" type="audio/mpeg" />
-            </audio>
 
             {/* Main Content */}
             <div className="envelope-content">

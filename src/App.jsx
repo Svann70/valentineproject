@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import LoadingScreen from './components/LoadingScreen';
 import EnvelopeScreen from './components/EnvelopeScreen';
@@ -11,15 +11,41 @@ import ClosingSection from './components/ClosingSection';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('loading');
-  const [audioElement, setAudioElement] = useState(null);
+  const [isMusicStarted, setIsMusicStarted] = useState(false);
+  const audioRef = useRef(null);
   const mainContentRef = useRef(null);
+
+  // Initialize audio on mount
+  useEffect(() => {
+    if (!audioRef.current) {
+      const audio = new Audio('/pandangan.mp3');
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.preload = 'auto';
+      audioRef.current = audio;
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const handleLoadingComplete = () => {
     setCurrentScreen('envelope');
   };
 
-  const handleEnvelopeOpen = (audio) => {
-    setAudioElement(audio);
+  const handleStartMusic = () => {
+    if (audioRef.current && !isMusicStarted) {
+      audioRef.current.play().catch(console.log);
+      setIsMusicStarted(true);
+    }
+  };
+
+  const handleEnvelopeOpen = () => {
+    // Music continues playing - no need to do anything
     setCurrentScreen('main');
   };
 
@@ -44,14 +70,17 @@ function App() {
 
       {/* Envelope Screen */}
       {currentScreen === 'envelope' && (
-        <EnvelopeScreen onOpenComplete={handleEnvelopeOpen} />
+        <EnvelopeScreen
+          onOpenComplete={handleEnvelopeOpen}
+          onStartMusic={handleStartMusic}
+        />
       )}
 
       {/* Main Experience */}
       {currentScreen === 'main' && (
         <>
           {/* Music Player */}
-          <MusicPlayer audioElement={audioElement} />
+          <MusicPlayer audioRef={audioRef} />
 
           {/* Background Particles - Minimal */}
           <div className="bg-particles">
@@ -73,7 +102,7 @@ function App() {
             <HeroSection onBeginJourney={handleBeginJourney} />
             <LoveCards />
             <MessageSection />
-            <MemoryGallery />
+            <MemoryGallery audioRef={audioRef} />
             <ClosingSection onRevisitLetter={handleRevisitLetter} />
           </main>
         </>

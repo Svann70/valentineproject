@@ -71,7 +71,7 @@ const ClosingSection = ({ onRevisitLetter }) => {
 
                     {/* Subtitle */}
                     <p className="closing-subtitle">
-                        Created with love, thought, and care.
+                        Created with love
                     </p>
 
                     {/* Button */}

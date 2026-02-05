@@ -5,35 +5,36 @@ import './MemoryGallery.css';
 // Replace the src values with your actual photos/video paths
 const galleryItems = [
     // First row - 3 photos
-    { id: 1, type: 'photo', src: "/images/memory-1.png", alt: "Memory 1" },
-    { id: 2, type: 'photo', src: "/images/memory-2.png", alt: "Memory 2" },
-    { id: 3, type: 'photo', src: "/images/memory-3.png", alt: "Memory 3" },
+    { id: 1, type: 'photo', src: "/images/1.jpeg", alt: "Memory 1" },
+    { id: 2, type: 'photo', src: "/images/2.jpeg", alt: "Memory 2" },
+    { id: 3, type: 'photo', src: "/images/3.jpeg", alt: "Memory 3" },
 
     // Second row - 3 photos
-    { id: 4, type: 'photo', src: "/images/memory-4.png", alt: "Memory 4" },
-    { id: 5, type: 'photo', src: "/images/memory-5.png", alt: "Memory 5" },
-    { id: 6, type: 'photo', src: "/images/memory-6.png", alt: "Memory 6" },
+    { id: 4, type: 'photo', src: "/images/4.jpeg", alt: "Memory 4" },
+    { id: 5, type: 'photo', src: "/images/5.jpeg", alt: "Memory 5" },
+    { id: 6, type: 'photo', src: "/images/6.jpeg", alt: "Memory 6" },
 
     // Third row - Video (full width) 
+    // Untuk thumbnail: tambahkan file thumbnail.jpg ke folder public/images/
     {
         id: 7,
         type: 'video',
-        src: "/images/video.mp4",
-        poster: "/images/video-poster.png",
+        src: "/images/vid1.mp4",
+        poster: "/images/thumbnail.png",
         alt: "Our Special Video"
     },
 
     // Fourth row - 3 photos
-    { id: 8, type: 'photo', src: "/images/memory-7.png", alt: "Memory 7" },
-    { id: 9, type: 'photo', src: "/images/memory-8.png", alt: "Memory 8" },
-    { id: 10, type: 'photo', src: "/images/memory-9.png", alt: "Memory 9" },
+    { id: 8, type: 'photo', src: "/images/7.jpeg", alt: "Memory 7" },
+    { id: 9, type: 'photo', src: "/images/8.jpeg", alt: "Memory 8" },
+    { id: 10, type: 'photo', src: "/images/9.jpeg", alt: "Memory 9" },
 ];
 
-const MemoryGallery = () => {
+const MemoryGallery = ({ audioRef }) => {
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
     const [activeItem, setActiveItem] = useState(null);
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+    const [wasPlaying, setWasPlaying] = useState(false);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -53,20 +54,25 @@ const MemoryGallery = () => {
         return () => observer.disconnect();
     }, []);
 
-    const handleVideoPlay = () => {
-        if (videoRef.current) {
-            if (isVideoPlaying) {
-                videoRef.current.pause();
-            } else {
-                videoRef.current.play();
-            }
-            setIsVideoPlaying(!isVideoPlaying);
+    // Handle opening video - pause background music
+    const handleOpenVideo = (item) => {
+        if (item.type === 'video' && audioRef?.current) {
+            // Remember if music was playing
+            setWasPlaying(!audioRef.current.paused);
+            // Pause background music
+            audioRef.current.pause();
         }
+        setActiveItem(item);
     };
 
+    // Handle closing lightbox - resume music if it was playing
     const closeLightbox = () => {
+        // If it was a video and music was playing before, resume
+        if (activeItem?.type === 'video' && wasPlaying && audioRef?.current) {
+            audioRef.current.play().catch(console.log);
+        }
         setActiveItem(null);
-        setIsVideoPlaying(false);
+        setWasPlaying(false);
     };
 
     // Separate photos and video for layout
@@ -98,7 +104,7 @@ const MemoryGallery = () => {
                                 key={item.id}
                                 className={`gallery-item photo-item ${isVisible ? 'visible' : ''}`}
                                 style={{ animationDelay: `${index * 0.1}s` }}
-                                onClick={() => setActiveItem(item)}
+                                onClick={() => handleOpenVideo(item)}
                             >
                                 <div className="gallery-image">
                                     <img src={item.src} alt={item.alt} loading="lazy" />
@@ -117,7 +123,7 @@ const MemoryGallery = () => {
                                 key={item.id}
                                 className={`gallery-item photo-item ${isVisible ? 'visible' : ''}`}
                                 style={{ animationDelay: `${(index + 3) * 0.1}s` }}
-                                onClick={() => setActiveItem(item)}
+                                onClick={() => handleOpenVideo(item)}
                             >
                                 <div className="gallery-image">
                                     <img src={item.src} alt={item.alt} loading="lazy" />
@@ -133,7 +139,7 @@ const MemoryGallery = () => {
                     {videoItem && (
                         <div className={`gallery-row video-row ${isVisible ? 'visible' : ''}`}
                             style={{ animationDelay: '0.6s' }}>
-                            <div className="video-container" onClick={() => setActiveItem(videoItem)}>
+                            <div className="video-container" onClick={() => handleOpenVideo(videoItem)}>
                                 <video
                                     poster={videoItem.poster}
                                     muted
@@ -161,7 +167,7 @@ const MemoryGallery = () => {
                                 key={item.id}
                                 className={`gallery-item photo-item ${isVisible ? 'visible' : ''}`}
                                 style={{ animationDelay: `${(index + 7) * 0.1}s` }}
-                                onClick={() => setActiveItem(item)}
+                                onClick={() => handleOpenVideo(item)}
                             >
                                 <div className="gallery-image">
                                     <img src={item.src} alt={item.alt} loading="lazy" />
@@ -174,21 +180,16 @@ const MemoryGallery = () => {
                     </div>
                 </div>
 
-                {/* Hint */}
-                <div className={`gallery-hint ${isVisible ? 'visible' : ''}`}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                        <circle cx="8.5" cy="8.5" r="1.5" />
-                        <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p>Replace with your own special photos and video</p>
-                </div>
+
             </div>
 
             {/* Lightbox Modal */}
             {activeItem && (
                 <div className="lightbox" onClick={closeLightbox}>
-                    <div className="lightbox-content" onClick={e => e.stopPropagation()}>
+                    <div
+                        className={`lightbox-content ${activeItem.type === 'video' ? 'video-mode' : ''}`}
+                        onClick={e => e.stopPropagation()}
+                    >
                         <button className="lightbox-close" onClick={closeLightbox}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M18 6L6 18M6 6l12 12" />
@@ -205,6 +206,7 @@ const MemoryGallery = () => {
                                     ref={videoRef}
                                     controls
                                     autoPlay
+                                    playsInline
                                     poster={activeItem.poster}
                                 >
                                     <source src={activeItem.src} type="video/mp4" />
