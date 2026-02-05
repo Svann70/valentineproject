@@ -16,7 +16,7 @@ const cardsData = [
     {
         id: 2,
         title: "Your Valentine Style",
-        description: "Soft, poetic, and meaningful",
+        description: "Soft, and meaningful",
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M12 3c-1.5 2-2 4.5-2 7s.5 5 2 7c1.5-2 2-4.5 2-7s-.5-5-2-7z" />
