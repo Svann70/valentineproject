@@ -1,0 +1,242 @@
+/* ===================================
+   CLOSING SECTION - MOBILE OPTIMIZED & CENTERED
+   =================================== */
+
+.closing-section {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow: hidden;
+}
+
+.closing-section .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Floating Hearts - Reduced */
+.closing-hearts {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-heart-closing {
+    position: absolute;
+    bottom: -30px;
+    width: 20px;
+    height: 20px;
+    color: var(--soft-blush);
+    animation: riseUp 12s ease-in-out infinite;
+    will-change: transform;
+}
+
+.floating-heart-closing svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes riseUp {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.5);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.15;
+    }
+
+    90% {
+        opacity: 0.15;
+    }
+
+    100% {
+        transform: translate3d(0, -100vh, 0) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Content - Fully Centered */
+.closing-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    opacity: 0;
+    transform: translate3d(0, 25px, 0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.closing-content.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* Icon */
+.closing-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    color: var(--deep-burgundy);
+    filter: drop-shadow(0 0 20px rgba(139, 29, 45, 0.4));
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.closing-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Title - Centered */
+.closing-title {
+    font-family: var(--font-script);
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    color: var(--warm-cream);
+    line-height: 1.25;
+    margin-bottom: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Divider - Centered */
+.closing-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.divider-line {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--soft-blush), transparent);
+}
+
+.divider-heart {
+    width: 14px;
+    height: 14px;
+    color: var(--soft-blush);
+}
+
+.divider-heart svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Subtitle - Centered */
+.closing-subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    font-style: italic;
+    color: var(--soft-blush);
+    opacity: 0.7;
+    margin-bottom: 28px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Button - Centered */
+.closing-btn {
+    margin-bottom: 32px;
+}
+
+.closing-btn .btn-icon {
+    width: 18px;
+    height: 18px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Footer - Centered */
+.closing-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    text-align: center;
+}
+
+.footer-text {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    color: var(--soft-blush);
+    opacity: 0.4;
+    text-align: center;
+}
+
+.footer-year {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--soft-blush);
+    opacity: 0.2;
+    text-align: center;
+}
+
+/* Background */
+.closing-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.bg-radial {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center bottom, rgba(139, 29, 45, 0.2) 0%, transparent 50%),
+        linear-gradient(180deg, #1A1A1A 0%, #2D1F2B 50%, #3D1A25 100%);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .closing-section {
+        padding: 40px 16px;
+    }
+
+    .closing-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .divider-line {
+        width: 35px;
+    }
+
+    .closing-content {
+        padding: 16px;
+    }
+
+    .floating-heart-closing {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .closing-content {
+        transition: none;
+    }
+
+    .closing-icon,
+    .floating-heart-closing {
+        animation: none;
+    }
+}

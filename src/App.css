@@ -1,0 +1,106 @@
+/* ===================================
+   APP STYLES - MOBILE OPTIMIZED
+   =================================== */
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* Main Content */
+.main-content {
+  position: relative;
+  animation: fadeIn 0.6s ease;
+}
+
+/* Page transition */
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Background Particles - Light for performance */
+.bg-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--soft-blush);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: driftParticle 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes driftParticle {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(15px, -15px, 0);
+  }
+
+  50% {
+    transform: translate3d(-10px, -30px, 0);
+  }
+
+  75% {
+    transform: translate3d(-15px, -15px, 0);
+  }
+}
+
+/* Section spacing */
+section {
+  position: relative;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Touch optimization */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile viewport fix */
+@supports (min-height: 100dvh) {
+  .app {
+    min-height: 100dvh;
+  }
+}
+
+/* Reduce particles on mobile */
+@media (max-width: 768px) {
+  .bg-particle {
+    width: 2px;
+    height: 2px;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .bg-particle {
+    animation: none;
+  }
+
+  .main-content {
+    animation: none;
+  }
+}

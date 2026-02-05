@@ -1,0 +1,221 @@
+/* ===================================
+   MESSAGE SECTION - MOBILE OPTIMIZED
+   =================================== */
+
+.message-section {
+    position: relative;
+    padding: 80px 0;
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Wrapper */
+.message-wrapper {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.message-wrapper.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Frame */
+.message-frame {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 12px;
+}
+
+.frame-corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--soft-blush);
+    opacity: 0.3;
+}
+
+.frame-corner.top-left {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+.frame-corner.top-right {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+}
+
+.frame-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+}
+
+.frame-corner.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+}
+
+/* Card */
+.message-card {
+    position: relative;
+    background: linear-gradient(135deg, #FFF8F2 0%, #F5EDE6 100%);
+    border-radius: 16px;
+    padding: 36px 24px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+/* Texture - Simplified */
+.card-texture {
+    display: none;
+}
+
+/* Header */
+.message-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.header-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--deep-burgundy);
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+.message-title {
+    font-family: var(--font-script);
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    color: var(--deep-burgundy);
+    text-align: center;
+}
+
+/* Divider */
+.message-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.divider-line {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--deep-burgundy), transparent);
+    opacity: 0.25;
+}
+
+.divider-ornament {
+    color: var(--deep-burgundy);
+    font-size: 1.2rem;
+    opacity: 0.5;
+}
+
+/* Content */
+.message-content {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.message-text {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 3vw, 1.15rem);
+    font-style: italic;
+    color: var(--charcoal);
+    line-height: 1.9;
+    margin-bottom: 8px;
+}
+
+.message-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Signature */
+.message-signature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.signature-text {
+    font-family: var(--font-script);
+    font-size: 1.5rem;
+    color: var(--deep-burgundy);
+}
+
+.signature-heart {
+    width: 16px;
+    height: 16px;
+    color: var(--deep-burgundy);
+}
+
+/* Decorations - Hidden on mobile */
+.message-decorations {
+    display: none;
+}
+
+/* Background */
+.message-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #1A1A1A 0%, #2D1F2B 50%, #3D1A25 100%);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .message-section {
+        padding: 60px 0;
+    }
+
+    .message-frame {
+        padding: 8px;
+    }
+
+    .message-card {
+        padding: 28px 18px;
+    }
+
+    .frame-corner {
+        width: 30px;
+        height: 30px;
+    }
+
+    .divider-line {
+        width: 35px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .message-wrapper {
+        transition: none;
+    }
+
+    .header-icon {
+        animation: none;
+    }
+}
